@@ -72,12 +72,12 @@ def compute_error(target_paths, predicted_paths):
                 if t_i >= len(target_stream)-1 and p_i >= len(predicted_stream)-1:
                     break
 
-    print "-"*46
-    print "{:<16} {:<9} {:<9} {:<9}".format('PUNCTUATION','PRECISION','RECALL','F-SCORE')
+    print ("-"*46)
+    print ("{:<16} {:<9} {:<9} {:<9}".format('PUNCTUATION','PRECISION','RECALL','F-SCORE'))
     for p in PUNCTUATION:
         precision = (true_positives.get(p,0.) / (true_positives.get(p,0.) + false_positives[p])) if p in false_positives else nan
         recall = (true_positives.get(p,0.) / (true_positives.get(p,0.) + false_negatives[p])) if p in false_negatives else nan
         f_score = (2. * precision * recall / (precision + recall)) if (precision + recall) > 0 else nan        
-        print "{:<16} {:<9} {:<9} {:<9}".format(p, round(precision,2), round(recall,2), round(f_score,2))
-    print "-"*46
-    print "Accuracy: %.2f%%" % (float(total_correct) / float(counter-1) * 100.0)
+        print ("{:<16} {:<9} {:<9} {:<9}".format(p, round(precision,2), round(recall,2), round(f_score,2)))
+    print ("-"*46)
+    print ("Accuracy: %.2f%%" % (float(total_correct) / float(counter-1) * 100.0))

@@ -27,8 +27,8 @@ def predict(net, inputs, outputs, pauses, with_backpropagation=False):
 
 def check(net):
 
-    print "\nChecking: %s" % net.__class__.__name__
-    print "="*60
+    print ("\nChecking: %s" % net.__class__.__name__)
+    print ("="*60)
 
     net_copy = copy.deepcopy(net)
     predict(net_copy, inputs, outputs, pauses, with_backpropagation=True)
@@ -37,7 +37,7 @@ def check(net):
 
     for param in net.params:
 
-        print "Checking: %s" % param
+        print ("Checking: %s" % param)
 
         W = getattr(net, param)
         dE_dW = getattr(net_copy, "dE_d%s" % param)
@@ -65,12 +65,12 @@ def check(net):
                         dE_dW_ij = dE_dW[i,j]
 
                     if not np.allclose(dE_dW_ij_numerical, dE_dW_ij):
-                        print "Gradient for %s[%d,%d] does not match (numerical: %f != real: %f)" \
-                              % (param, i, j, dE_dW_ij_numerical, dE_dW_ij)
+                        print ("Gradient for %s[%d,%d] does not match (numerical: %f != real: %f)"
+                              % (param, i, j, dE_dW_ij_numerical, dE_dW_ij))
                         errors += 1
                     elif SHOW_CORRECT:
-                        print "Gradient for %s[%d,%d] is OK (%f)" \
-                              % (param, i, j, dE_dW_ij)
+                        print ("Gradient for %s[%d,%d] is OK (%f)"
+                              % (param, i, j, dE_dW_ij))
 
         elif W.ndim == 1:
 
@@ -87,17 +87,17 @@ def check(net):
                 dE_dW_i_numerical = (E_plus - E_minus)/(2.*tiny)
 
                 if not np.allclose(dE_dW_i_numerical, dE_dW[i]):
-                    print "Gradient for %s[%d] does not match (numerical: %f != real: %f)" \
-                          % (param, i, dE_dW_i_numerical, dE_dW[i])
+                    print ("Gradient for %s[%d] does not match (numerical: %f != real: %f)"
+                          % (param, i, dE_dW_i_numerical, dE_dW[i]))
                     errors += 1
                 elif SHOW_CORRECT:
-                    print "Gradient for %s[%d] is OK (%f)" \
-                          % (param, i, dE_dW[i])
+                    print ("Gradient for %s[%d] is OK (%f)"
+                          % (param, i, dE_dW[i]))
 
     if errors > 0:
-        print "\n### TOTAL ERRORS: %s ###\n" % errors
+        print ("\n### TOTAL ERRORS: %s ###\n" % errors)
     else:
-        print "\n### OK ###\n"
+        print ("\n### OK ###\n")
 
 
 if __name__ == "__main__":

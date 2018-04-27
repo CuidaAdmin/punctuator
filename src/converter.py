@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import numpy as np
-import cPickle
+import _pickle as cPickle
 import utils
 
 def convert_files(file_paths, vocabulary, punctuations, batch_size, use_pauses, output_path):
@@ -37,7 +37,7 @@ def convert_files(file_paths, vocabulary, punctuations, batch_size, use_pauses, 
         pauses.append(pause)
 
     assert len(inputs) == len(outputs)
-    num_batches = np.floor(len(inputs) / batch_size)
+    num_batches = int(np.floor(len(inputs) / batch_size))
 
     dtype = np.int32 if len(vocabulary) > 32767 else np.int16
 
@@ -56,4 +56,4 @@ def convert_files(file_paths, vocabulary, punctuations, batch_size, use_pauses, 
         data["pauses"] = pauses
 
     with open(output_path, 'wb') as output_file:
-        cPickle.dump(data, output_file, protocol=cPickle.HIGHEST_PROTOCOL)
+        cPickle.dump(data, output_file, protocol=-1)

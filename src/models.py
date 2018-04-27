@@ -1,12 +1,11 @@
 # coding: utf-8
 
 import numpy as np
-import cPickle
-import activation_functions
+import _pickle as cPickle
+from . import activation_functions
 
-from itertools import izip
-from activation_functions import Softmax, Sigmoid, Tanh
-from utils import get_vocabulary_size, load_model
+from .activation_functions import Softmax, Sigmoid, Tanh
+from .utils import get_vocabulary_size, load_model
 
 FLOATX = np.float64
 
@@ -211,13 +210,13 @@ class T_LSTM(Model):
 
         pause_history = self.pause_history if self.use_pauses else [None]*len(self.word_history)
 
-        for pauses, words, W, Wr, Wip, Wfp, Wop, x, m_tm1, h_tm1, z, i, ig, fg, og in reversed(zip(
+        for pauses, words, W, Wr, Wip, Wfp, Wop, x, m_tm1, h_tm1, z, i, ig, fg, og in reversed(list(zip(
                                                 pause_history, self.word_history,
                                                 self.W_history, self.Wr_history,
                                                 self.Wip_history, self.Wfp_history, self.Wop_history,
                                                 self.x_history, self.m_tm1_history, self.h_tm1_history, self.z_history,
                                                 self.i_history, self.ig_history,
-                                                self.fg_history, self.og_history)):
+                                                self.fg_history, self.og_history))):
 
             dE_dh = dE_dh + dE_dh_tm1
             dE_dog = dE_dh * z * Sigmoid.dy_dz(y=og)
@@ -240,7 +239,7 @@ class T_LSTM(Model):
             self.dE_dW += np.dot(x.T, d)
             self.dE_dWr += np.dot(h_tm1.T, d)
 
-            for word, dE_dx_word in izip(words, dE_dx):
+            for word, dE_dx_word in zip(words, dE_dx):
                 self.dE_dWe[word] = self.dE_dWe.get(word, 0.) + dE_dx_word
 
             if self.use_pauses:
@@ -300,7 +299,7 @@ class T_LSTM(Model):
             if not final:
                 model[p+"_hg"] = getattr(self, p+"_hg")
 
-        cPickle.dump(model, file(file_name, 'wb'))
+        cPickle.dump(model, open(file_name, 'wb'))
 
 
 class TA_LSTM(Model):
@@ -451,12 +450,12 @@ class TA_LSTM(Model):
 
         pause_history = self.pause_history if self.use_pauses else [None]*len(self.h_tm1_history)
 
-        for pauses, Wr, Wip, Wfp, Wop, t_lstm_h, m_tm1, h_tm1, z, i, ig, fg, og in reversed(zip(
+        for pauses, Wr, Wip, Wfp, Wop, t_lstm_h, m_tm1, h_tm1, z, i, ig, fg, og in reversed(list(zip(
                                                 pause_history, self.Wr_history,
                                                 self.Wip_history, self.Wfp_history, self.Wop_history,
                                                 self.t_lstm_h_history, self.m_tm1_history, self.h_tm1_history,
                                                 self.z_history, self.i_history, self.ig_history,
-                                                self.fg_history, self.og_history)):
+                                                self.fg_history, self.og_history))):
 
             dE_dh = dE_dh + dE_dh_tm1
             dE_dog = dE_dh * z * Sigmoid.dy_dz(y=og)
@@ -532,7 +531,7 @@ class TA_LSTM(Model):
         self.t_lstm.save(t_lstm_file_name, True)
         model["t_lstm_file_name"] = t_lstm_file_name
 
-        cPickle.dump(model, file(file_name, 'wb'))
+        cPickle.dump(model, open(file_name, 'wb'))
 
     def load(self, model):
         self.t_lstm = load_model(model["t_lstm_file_name"])

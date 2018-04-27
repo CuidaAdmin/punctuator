@@ -8,7 +8,6 @@ import models
 import conf
 
 from time import time
-from itertools import izip
 
 def _process_corpus(net, dataset, mode='train', learning_rate=None):
     assert mode in ('train', 'test')
@@ -20,7 +19,7 @@ def _process_corpus(net, dataset, mode='train', learning_rate=None):
 
     net.reset_state()
 
-    for inputs, outputs, pauses in izip(dataset["inputs"], dataset["outputs"], dataset.get("pauses", [None] * dataset["total_size"])):
+    for inputs, outputs, pauses in zip(dataset["inputs"], dataset["outputs"], dataset.get("pauses", [None] * dataset["total_size"])):
 
         if mode == 'train':
             neg_log_probs = net.train(inputs, outputs, pauses, learning_rate)
@@ -56,31 +55,31 @@ def _train(net, training_data, validation_data, model_name, learning_rate, max_e
         
         epoch_start = time()
         
-        print "\n======= EPOCH %s =======" % epoch
-        print "\tLearning rate is %s" % learning_rate
+        print ("\n======= EPOCH %s =======" % epoch)
+        print ("\tLearning rate is %s" % learning_rate)
 
         train_ppl = _process_corpus(net, training_data, mode='train', learning_rate=learning_rate) 
-        print "\tTrain PPL is %.3f" % train_ppl
+        print ("\tTrain PPL is %.3f" % train_ppl)
 
         validation_ppl = _process_corpus(net, validation_data, mode='test')
-        print "\tValidation PPL is %.3f" % validation_ppl
+        print ("\tValidation PPL is %.3f" % validation_ppl)
 
-        print "\tTime taken: %ds" % (time() - epoch_start)
+        print ("\tTime taken: %ds" % (time() - epoch_start))
 
         if np.log(validation_ppl) * min_improvement > np.log(best_validation_ppl): # Mikolovs recipe
             if not divide:
                 divide = True
-                print "\tStarting to reduce the learning rate..."
+                print ("\tStarting to reduce the learning rate...")
                 if validation_ppl > best_validation_ppl:
-                    print "\tLoading best model."
+                    print ("\tLoading best model.")
                     net = utils.load_model("../out/" + model_name)
             else:
                 if validation_ppl < best_validation_ppl:
-                    print "\tSaving model."
+                    print ("\tSaving model.")
                     net.save("../out/" + model_name, final=True)
                 break
         else:
-            print "\tNew best model! Saving..."
+            print ("\tNew best model! Saving...")
             best_validation_ppl = validation_ppl
             final = learning_rate / 2. < min_learning_rate or epoch == max_epochs
             net.save("../out/" + model_name, final)
@@ -91,9 +90,9 @@ def _train(net, training_data, validation_data, model_name, learning_rate, max_e
         if learning_rate < min_learning_rate:
             break
             
-    print "-"*30
-    print "Finished training."
-    print "Best validation PPL is %.3f\n\n" % best_validation_ppl
+    print ("-"*30)
+    print ("Finished training.")
+    print ("Best validation PPL is %.3f\n\n" % best_validation_ppl)
 
 def train(model_name, p1_train_data, p1_dev_data, p2_train_data, p2_dev_data):
 
@@ -106,11 +105,11 @@ def train(model_name, p1_train_data, p1_dev_data, p2_train_data, p2_dev_data):
     assert training_data["vocabulary"] == validation_data["vocabulary"]
     assert training_data["punctuations"] == validation_data["punctuations"]
 
-    print "1st phase data loaded..."
+    print ("1st phase data loaded...")
 
-    print "Vocabulary size is %d" % utils.get_vocabulary_size(validation_data["vocabulary"])
-    print "Training set size is %d" % training_data["total_size"]
-    print "Validation set size is %d" % validation_data["total_size"]
+    print ("Vocabulary size is %d" % utils.get_vocabulary_size(validation_data["vocabulary"]))
+    print ("Training set size is %d" % training_data["total_size"])
+    print ("Validation set size is %d" % validation_data["total_size"])
 
     net = models.T_LSTM()
     net.initialize(hidden_size=conf.PHASE1["HIDDEN_SIZE"],
@@ -127,7 +126,7 @@ def train(model_name, p1_train_data, p1_dev_data, p2_train_data, p2_dev_data):
     ### PHASE 2 ###
 
     if not os.path.isfile(p2_train_data) or not os.path.isfile(p2_train_data):
-        print "No second phase data."
+        print ("No second phase data.")
         return
 
     training_data = np.load(p2_train_data)
@@ -137,11 +136,11 @@ def train(model_name, p1_train_data, p1_dev_data, p2_train_data, p2_dev_data):
     assert training_data["vocabulary"] == validation_data["vocabulary"] == net.in_vocabulary
     assert training_data["punctuations"] == validation_data["punctuations"] == net.out_vocabulary
 
-    print "2nd phase data loaded..."
+    print ("2nd phase data loaded...")
 
-    print "Training set size is %d" % training_data["total_size"]
-    print "Validation set size is %d" % validation_data["total_size"]
-    print "Trainging %s pause durations." % ("with" if conf.PHASE2["USE_PAUSES"] else "without")
+    print ("Training set size is %d" % training_data["total_size"])
+    print ("Validation set size is %d" % validation_data["total_size"])
+    print ("Trainging %s pause durations." % ("with" if conf.PHASE2["USE_PAUSES"] else "without"))
 
     t_lstm = net
 

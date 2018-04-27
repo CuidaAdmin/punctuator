@@ -1,7 +1,7 @@
 # coding: utf-8
 
 def get_reverse_map(dictionary):
-	return {v:k for k,v in dictionary.iteritems()}
+	return {v:k for k,v in dictionary.items()}
 
 def get_vocabulary_size(vocabulary):
     return max(vocabulary.values()) + 1
@@ -22,7 +22,7 @@ def load_vocabulary(file_path):
     return vocabulary
     
 def load_model(file_path):
-    import models
+    from . import models
     import numpy as np
     
     model = np.load(file_path)

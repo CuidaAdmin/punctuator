@@ -31,7 +31,7 @@ if __name__ == "__main__":
     ### convert data ###
     if not os.path.exists("../data"):
 
-        print "Converting data...\n"
+        print ("Converting data...\n")
 
         os.makedirs("../data")
 
@@ -44,11 +44,11 @@ if __name__ == "__main__":
             converter.convert_files(conf.PHASE2["DEV_DATA"], vocabulary, conf.PUNCTUATIONS, conf.BATCH_SIZE, conf.PHASE2["USE_PAUSES"], PHASE2_DEV_PATH)
 
     ### train model ###
-    print "Training model...\n"
+    print ("Training model...\n")
 
     if not os.path.exists("../out"):
         os.makedirs("../out")
     
     trainer.train(model_name, PHASE1_TRAIN_PATH, PHASE1_DEV_PATH, PHASE2_TRAIN_PATH, PHASE2_DEV_PATH)
 
-    print "Done in %.2f minutes" % ((time() - t0) / 60.)
+    print ("Done in %.2f minutes" % ((time() - t0) / 60.))
