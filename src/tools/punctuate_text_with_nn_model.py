@@ -1,9 +1,9 @@
 # coding: utf-8
 
 import sys, os
-sys.path.append(os.path.pardir)
+sys.path.append(os.path.curdir)
 
-from src import utils
+import utils
 import numpy as np
 
 def write_punctuations(net, text_has_pause_duration_tags, unpunctuated_text, output_file_path, punctuation_reverse_map, write_readable_text):

@@ -22,7 +22,7 @@ def load_vocabulary(file_path):
     return vocabulary
     
 def load_model(file_path):
-    from . import models
+    import models
     import numpy as np
     
     model = np.load(file_path)
