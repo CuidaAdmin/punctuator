@@ -2,7 +2,7 @@
 
 # If you change configuration then you might need to reconvert the dataset (delete ../data directory and run main.py again). 
 
-PUNCTUATIONS = {" ": 0, ".PERIOD": 1, ",COMMA": 2}
+PUNCTUATIONS = {" ": 0, ".PERIOD": 1, ",COMMA": 2, "?QUESTION": 3}
 VOCABULARY_FILE = "../raw_data/vocab"
 
 RANDOM_SEED = 1
