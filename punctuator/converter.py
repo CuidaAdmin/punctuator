@@ -2,7 +2,7 @@
 
 import numpy as np
 import _pickle as cPickle
-import utils
+from . import utils
 
 def convert_files(file_paths, vocabulary, punctuations, batch_size, use_pauses, output_path):
     inputs = []

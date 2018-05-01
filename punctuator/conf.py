@@ -3,7 +3,7 @@
 # If you change configuration then you might need to reconvert the dataset (delete ../data directory and run main.py again). 
 
 PUNCTUATIONS = {" ": 0, ".PERIOD": 1, ",COMMA": 2, "?QUESTION": 3}
-VOCABULARY_FILE = "../raw_data/vocab"
+VOCABULARY_FILE = "./raw_data/vocab"
 
 RANDOM_SEED = 1
 SHOW_WPS = True # Show training progress in % and speed in words per second (should be turned of when output is logged into a file)
@@ -17,8 +17,10 @@ PHASE1 = {
             "HIDDEN_SIZE": 100,
             "HIDDEN_ACTIVATION": "Tanh",
             "BPTT_STEPS": 5,
-            "TRAIN_DATA": ["../raw_data/reddit/train.txt"],
-            "DEV_DATA": ["../raw_data/reddit/valid.txt"],
+            #"TRAIN_DATA": ["./raw_data/reddit/train.txt"],
+            #"DEV_DATA": ["./raw_data/reddit/valid.txt"],
+            "TRAIN_DATA": ["./raw_data/nli/train_small.txt"],
+            "DEV_DATA": ["./raw_data/nli/valid_small.txt"],
          }
 
 PHASE2 = {

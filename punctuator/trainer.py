@@ -3,9 +3,9 @@
 import numpy as np
 import sys
 import os
-import utils
-import models
-import conf
+from . import utils
+from . import models
+from . import conf
 
 from time import time
 
@@ -72,17 +72,17 @@ def _train(net, training_data, validation_data, model_name, learning_rate, max_e
                 print ("\tStarting to reduce the learning rate...")
                 if validation_ppl > best_validation_ppl:
                     print ("\tLoading best model.")
-                    net = utils.load_model("../out/" + model_name)
+                    net = utils.load_model("./out/" + model_name)
             else:
                 if validation_ppl < best_validation_ppl:
                     print ("\tSaving model.")
-                    net.save("../out/" + model_name, final=True)
+                    net.save("./out/" + model_name, final=True)
                 break
         else:
             print ("\tNew best model! Saving...")
             best_validation_ppl = validation_ppl
             final = learning_rate / 2. < min_learning_rate or epoch == max_epochs
-            net.save("../out/" + model_name, final)
+            net.save("./out/" + model_name, final)
 
         if divide:
             learning_rate /= 2.

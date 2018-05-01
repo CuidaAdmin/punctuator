@@ -1,9 +1,9 @@
 # coding: utf-8
 
 import sys, os
-sys.path.append(os.path.curdir)
+#sys.path.append(os.path.curdir)
 
-import utils
+from punctuator import utils
 import numpy as np
 
 def write_punctuations(net, text_has_pause_duration_tags, unpunctuated_text, output_file_path, punctuation_reverse_map, write_readable_text):
@@ -76,6 +76,6 @@ if __name__ == "__main__":
         write_punctuations(net, text_has_pause_duration_tags, unpunctuated_text, output_file_path, punctuation_reverse_map, write_readable_text)
         
     else:
-        print ("Execute in src directory." + 
-              "Usage: python tools/punctuate_text_with_nn_model.py <model path> <1/0 write readable format> <1/0 text has pause duration tags> <output file path or - for stdout> <unpunctuated text path>\n" + 
-              "   or: cat <unpunctuated text path> | python tools/punctuate_text_with_nn_model.py <model path> <1/0 write readable format>  <1/0 text has pause duration tags> <output file path or - for stdout>")
+        print ("Execute in root directory." + 
+              "Usage: python punctuate_text_with_nn_model.py <model path> <1/0 write readable format> <1/0 text has pause duration tags> <output file path or - for stdout> <unpunctuated text path>\n" + 
+              "   or: cat <unpunctuated text path> | python punctuate_text_with_nn_model.py <model path> <1/0 write readable format>  <1/0 text has pause duration tags> <output file path or - for stdout>")

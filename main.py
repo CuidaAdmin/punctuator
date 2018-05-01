@@ -2,20 +2,20 @@
 
 import sys
 import os
-import utils
-import trainer
-import conf
-import converter
+from punctuator import utils
+from punctuator import trainer
+from punctuator import conf
+from punctuator import converter
 
 import numpy as np
 
 from time import time
 
-PHASE1_TRAIN_PATH = "../data/train1"
-PHASE1_DEV_PATH = "../data/dev1"
+PHASE1_TRAIN_PATH = "data/train1"
+PHASE1_DEV_PATH = "data/dev1"
 
-PHASE2_TRAIN_PATH = "../data/train2"
-PHASE2_DEV_PATH = "../data/dev2"
+PHASE2_TRAIN_PATH = "data/train2"
+PHASE2_DEV_PATH = "data/dev2"
 
 if __name__ == "__main__":
 
@@ -29,11 +29,11 @@ if __name__ == "__main__":
     t0 = time()
 
     ### convert data ###
-    if not os.path.exists("../data"):
+    if not os.path.exists("data"):
 
         print ("Converting data...\n")
 
-        os.makedirs("../data")
+        os.makedirs("data")
 
         vocabulary = utils.load_vocabulary(conf.VOCABULARY_FILE)
 
@@ -46,8 +46,8 @@ if __name__ == "__main__":
     ### train model ###
     print ("Training model...\n")
 
-    if not os.path.exists("../out"):
-        os.makedirs("../out")
+    if not os.path.exists("out"):
+        os.makedirs("out")
     
     trainer.train(model_name, PHASE1_TRAIN_PATH, PHASE1_DEV_PATH, PHASE2_TRAIN_PATH, PHASE2_DEV_PATH)
 
