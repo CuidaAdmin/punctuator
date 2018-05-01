@@ -17,8 +17,8 @@ PHASE1 = {
             "HIDDEN_SIZE": 100,
             "HIDDEN_ACTIVATION": "Tanh",
             "BPTT_STEPS": 5,
-            "TRAIN_DATA": ["../raw_data/train.txt"],
-            "DEV_DATA": ["../raw_data/dev.txt"],
+            "TRAIN_DATA": ["../raw_data/reddit/train.txt"],
+            "DEV_DATA": ["../raw_data/reddit/valid.txt"],
          }
 
 PHASE2 = {
@@ -28,7 +28,7 @@ PHASE2 = {
             "HIDDEN_SIZE": 100,
             "HIDDEN_ACTIVATION": "Tanh",
             "BPTT_STEPS": 5,
-            "TRAIN_DATA": ["../raw_data/pauses.train.txt"],
-            "DEV_DATA": ["../raw_data/pauses.dev.txt"],
+            "TRAIN_DATA": [],
+            "DEV_DATA": [],
             "USE_PAUSES": True
          }

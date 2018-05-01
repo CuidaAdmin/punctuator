@@ -2,10 +2,10 @@
 
 import numpy as np
 import _pickle as cPickle
-import activation_functions
+from . import activation_functions
 
-from activation_functions import Softmax, Sigmoid, Tanh
-from utils import get_vocabulary_size, load_model
+from .activation_functions import Softmax, Sigmoid, Tanh
+from .utils import get_vocabulary_size, load_model
 
 FLOATX = np.float64
 
