@@ -16,6 +16,14 @@ Model is trained in two stages (second stage is optional though):
 * Vocabulary file to specify the input vocabulary of the model. One word per line.
 * Cleaned text files for training and validation of the first phase model. Punctuation marks that are not going to be restored by the model should be removed or replaced with appropriate substitute (e.g. questionmarks can be replaced with periods etc). Each punctuation symbol must be surrounded by spaces.
 
+# English data sources
+* https://www.nyu.edu/projects/bowman/multinli/
+* https://www.kaggle.com/reddit/reddit-comments-may-2015
+
+# English vocabulary sources
+* https://github.com/first20hours/google-10000-english
+* http://norvig.com/ngrams/
+
   Example:
   ```to be ,COMMA or not to be ,COMMA that is the question .PERIOD```
 * *(Optional)* Pause annotated text files for training and validation of the second phase model. These should be cleaned in the same way as the first phase data. Pause durations in seconds should be marked after each word with a special tag `<sil=0.200>`. Punctuation mark, if any, must come after the pause tag.

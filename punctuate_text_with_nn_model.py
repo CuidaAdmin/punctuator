@@ -52,6 +52,11 @@ def write_punctuations(net, text_has_pause_duration_tags, unpunctuated_text, out
                         output_file.write("%s %s" % (punctuation[:1], word))
                     else:
                         output_file.write(" %s %s" % (punctuation, word))
+
+            # import timeit, functools
+            # t = timeit.Timer(functools.partial(net.predict_punctuation, [word_index], np.array([0.0])))
+            # print('\ntimeit', t.timeit(10))
+
     
 if __name__ == "__main__":
     

@@ -1,5 +1,6 @@
 # coding: utf-8
-import numpy as np  
+import numpy as np
+from threading import get_ident
 
 def get_reverse_map(dictionary):
     return {v:k for k,v in dictionary.items()}
@@ -32,12 +33,19 @@ def load_model(file_path):
     
     return net
 
+_model_cache = {}
 def prepare_for_punctuate(model_name):
-    # pre-load the large models once
-    net = load_model(model_name)
-    net.batch_size = 1
-    net.reset_state()
-    punctuation_reverse_map = get_reverse_map(net.out_vocabulary)
+    # cache the models
+    if model_name in _model_cache:
+        print('punctuator: thread-%d cached model %s' % (get_ident(), model_name))
+        net, punctuation_reverse_map = _model_cache[model_name]
+    else:
+        print('punctuator: thread-%d loading model %s' % (get_ident(), model_name))
+        net = load_model(model_name)
+        net.batch_size = 1
+        net.reset_state()
+        punctuation_reverse_map = get_reverse_map(net.out_vocabulary)
+        _model_cache[model_name] = (net, punctuation_reverse_map)
 
     return (net, punctuation_reverse_map)
 
